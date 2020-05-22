@@ -43,7 +43,7 @@ jobs:
           --exclude /deploy_key \
           --exclude /.git/ \
           --exclude /.github/ \
-          ./public ${{env.dest}}
+          ./public/ ${{env.dest}}
         
     - name: Display status from deploy
       run: echo "${{ steps.deploy.outputs.status }}"  
