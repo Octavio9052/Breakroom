@@ -32,16 +32,18 @@ jobs:
     #  run: |
     #    echo Add other actions to build,
     #    echo test, and deploy your project.
-    - name: Deploy to server
-      uses: Pendect/action-rsyncer@v1.1.0
+    - name: Sync
       env:
-        DEPLOY_KEY: ${{secrets.weblinode}}
-      with:
-        flags: '-avzr --delete'
-        options: ''
-        ssh_options: ''
-        src: 'public/'
-        dest: 'root@armenta.dev:/var/www/html/armenta.dev/public_html'
+        dest: 'octavio@armenta.dev:/var/www/html/armenta.dev/public_html'
+      run: |
+        echo "${{secrets.DEPLOY_KEY}}" > deploy_key
+        chmod 600 ./deploy_key
+        rsync -chav --delete \
+          -e 'ssh -i ./deploy_key -o StrictHostKeyChecking=no' \
+          --exclude /deploy_key \
+          --exclude /.git/ \
+          --exclude /.github/ \
+          ./ ${{env.dest}}
         
     - name: Display status from deploy
       run: echo "${{ steps.deploy.outputs.status }}"  
