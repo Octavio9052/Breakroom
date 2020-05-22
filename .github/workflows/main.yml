@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Publish to web server
 
 
 # Controls when the action will run. Triggers the workflow on push or pull request
@@ -8,8 +8,7 @@ name: CI
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
+  
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -23,16 +22,12 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    # Runs a single command using the runners shell
-    - name: Run a one-line script
-      run: echo Hello, world!
-
     # Runs a set of commands using the runners shell
     # - name: Run a multi-line script
     #  run: |
     #    echo Add other actions to build,
     #    echo test, and deploy your project.
-    - name: Sync
+    - name: Use rsync to publish to web server
       env:
         dest: 'octavio@armenta.dev:/var/www/html/armenta.dev/public_html'
       run: |
@@ -44,8 +39,5 @@ jobs:
           --exclude /.git/ \
           --exclude /.github/ \
           ./public/ ${{env.dest}}
-        
-    - name: Display status from deploy
-      run: echo "${{ steps.deploy.outputs.status }}"  
 
       
