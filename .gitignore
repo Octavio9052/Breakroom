@@ -13,5 +13,15 @@
 # Ignore all local history of files
 .history
 
+### Firebase ###
+.idea
+**/node_modules/*
+**/.firebaserc
+
+### Firebase Patch ###
+.runtimeconfig.json
+.firebase/
+
+
 # End of https://www.gitignore.io/api/visualstudiocode
 
